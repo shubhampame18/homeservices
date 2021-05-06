@@ -15,6 +15,8 @@
     }
     return true;
     }
+
+
 </script>
 <h3 style="text-align: center;margin-top:20px">User Signup</h3>
 <hr>
@@ -23,20 +25,23 @@
 <div class="container py-5 ">
     <div class="row">
         <div class="col-md-10 mx-auto">
-            <form  method="post" name="signup" onsubmit="return checkpass();">
-                 {% csrf_token %}
+            <form method="POST" action="user_signup" name="signup" onsubmit="return checkpass();" enctype="multipart/form-data">
+                {% csrf_token %}
                 <div class="form-group row">
                     <div class="col-sm-6 ">
                         <label for="inputFirstname">User Name</label>
-                        <input type="text" class="form-control" id="inputFirstname" name="username" placeholder="username" required>
+                        <input type="text" class="form-control"  name="username"
+                               placeholder="username" required>
                     </div>
                     <div class="col-sm-3">
                         <label for="inputState">Password</label>
-                        <input type="password" class="form-control" id="inputState" name="pwd" placeholder="password" required>
+                        <input type="password" class="form-control"  name="pwd" placeholder="password"
+                               required>
                     </div>
                     <div class="col-sm-3">
                         <label for="inputPostalCode">Confirm password</label>
-                        <input type="password" class="form-control" id="inputPostalCode" name="cpwd" placeholder="confirm password" required>
+                        <input type="password" class="form-control"  name="cpwd"
+                               placeholder="confirm password" required>
                     </div>
                 </div>
 
@@ -44,27 +49,32 @@
                 <div class="form-group row">
                     <div class="col-sm-6 ">
                         <label for="inputFirstname">First name</label>
-                        <input type="text" class="form-control" id="inputFirstname" name="fname" placeholder="First name" required>
+                        <input type="text" class="form-control" id="inputFirstname" name="fname"
+                               placeholder="First name" required>
                     </div>
                     <div class="col-sm-6">
                         <label for="inputLastname">Last name</label>
-                        <input type="text" class="form-control" id="inputLastname" name="lname" placeholder="Last name" required>
+                        <input type="text" class="form-control" id="inputLastname" name="lname" placeholder="Last name"
+                               required>
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-6">
                         <label for="inputAddressLine1">Contact</label>
-                        <input type="number" class="form-control" id="inputAddressLine1" name="contact"  placeholder="mobile no" required>
+                        <input type="number" class="form-control" id="inputAddressLine1" name="contact"
+                               placeholder="mobile no" required>
                     </div>
                     <div class="col-sm-6">
                         <label for="inputAddressLine2">Email Address</label>
-                        <input type="email" class="form-control" id="inputAddressLine2" name="email" placeholder="email" required>
+                        <input type="email" class="form-control" id="inputAddressLine2" name="email" placeholder="email"
+                               required>
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-6">
                         <label for="inputCity">address</label>
-                        <input type="text" class="form-control" id="inputCity"  name="address" placeholder="address" required>
+                        <input type="text" class="form-control" id="inputCity" name="address" placeholder="address"
+                               required>
                     </div>
                     <div class="col-sm-3">
                         <label for="inputState">city</label>
@@ -72,23 +82,40 @@
                     </div>
                     <div class="col-sm-3">
                         <label for="inputPostalCode">Images</label>
-                        <input type="file" class="form-control" id="inputPostalCode" name="image" placeholder="choose file" required>
+                        <input type="file" class="form-control" id="inputPostalCode" name="image"
+                               placeholder="choose file" required>
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-6">
-                         <label for="inputPostalCode" style="margin-top:10px">Select User Type</label><br>
-                        <input type="radio" id="customer" name="user" value="customer">
+                        <label  style="margin-top:10px">Select User Type</label><br>
+                        <input type="radio" id="customer" name="usertype" value="customer">
                         <label for="male">Customer</label><br>
-                        <input type="radio" id="serviceman" name="user" value="serviceman">
+                        <input type="radio" id="serviceman" name="usertype" value="serviceman">
                         <label for="female">Serviceman</label><br>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary px-4 float-right mt-3 form-control" >Register</button>
+                <button type="submit" class="btn btn-primary px-4 float-right mt-3 form-control">Register</button>
             </form>
         </div>
     </div>
 </div>
 {% include 'footer.html' %}
+
+
+{% ifequal error False %}
+<script>
+    alert("signup Successful");
+    window.location=('{% url 'user_login' %}')
+
+</script>
+{% endifequal %}
+
+{% ifequal error True %}
+<script>
+    alert("something went to wrong, try again....");
+
+</script>
+{% endifequal %}
 
 {% endblock %}
