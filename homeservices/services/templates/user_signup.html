@@ -30,7 +30,7 @@
                 <div class="form-group row">
                     <div class="col-sm-6 ">
                         <label for="inputFirstname">User Name</label>
-                        <input type="text" class="form-control"  name="username"
+                        <input type="text" class="form-control"  name="uname"
                                placeholder="username" required>
                     </div>
                     <div class="col-sm-3">
@@ -76,11 +76,8 @@
                         <input type="text" class="form-control" id="inputCity" name="address" placeholder="address"
                                required>
                     </div>
-                    <div class="col-sm-3">
-                        <label for="inputState">city</label>
-                        <input type="text" class="form-control" id="inputState" name="city" placeholder="city" required>
-                    </div>
-                    <div class="col-sm-3">
+
+                    <div class="col-sm-6">
                         <label for="inputPostalCode">Images</label>
                         <input type="file" class="form-control" id="inputPostalCode" name="image"
                                placeholder="choose file" required>
@@ -89,9 +86,9 @@
                 <div class="form-group row">
                     <div class="col-sm-6">
                         <label  style="margin-top:10px">Select User Type</label><br>
-                        <input type="radio" id="customer" name="usertype" value="customer">
+                        <input type="radio" id="customer" name="type" value="customer">
                         <label for="male">Customer</label><br>
-                        <input type="radio" id="serviceman" name="usertype" value="serviceman">
+                        <input type="radio" id="serviceman" name="type" value="serviceman">
                         <label for="female">Serviceman</label><br>
                     </div>
                 </div>
@@ -103,15 +100,15 @@
 {% include 'footer.html' %}
 
 
-{% ifequal error False %}
+{% ifequal error "no" %}
 <script>
-    alert("signup Successful");
+    alert("login Successful");
     window.location=('{% url 'user_login' %}')
 
 </script>
 {% endifequal %}
 
-{% ifequal error True %}
+{% ifequal error "yes" %}
 <script>
     alert("something went to wrong, try again....");
 

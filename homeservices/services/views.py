@@ -1,6 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from .models import *
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate,login,logout
+import datetime
 
 
 # Create your views here.
@@ -13,31 +15,60 @@ def admin_login(request):
 
 
 def user_login(request):
-    return render(request, 'user_login.html')
+    error = ""
+    if request.method =="POST":
+        u=request.POST['uname'];
+        p=request.POST['pwd'];
+        user =authenticate(username=u, pwd=p)
+        if user:
+            try:
+                user1 = CustomerUser.objects.get(user=user)
+                if user1.type == "customer":
+                    login(request, user)
+                    error="no"
+                else:
+                    error="yes"
+            except:
+               error="yes"
+        else:
+            error="yes"
+    d ={'error':error}
+    return render(request, 'user_login.html', d)
 
 
 def contact(request):
     return render(request, 'contact.html')
 
 
-def user_signup(request):
+def Signup_User(request):
+    error = ""
     if request.method == 'POST':
-        username = request.POST.get('username')
-        pwd = request.POST.get('pwd')
-        fname = request.POST.get('fname')
-        lname = request.POST.get('lname')
-        contact = request.POST.get('contact')
-        email = request.POST.get('email')
-        address = request.POST.get('address')
-        city = request.POST.get('city')
-        image = request.FILES.get('image')
-        usertype = request.POST.get('usertype')
-        print(fname,lname)
+        f = request.POST['fname']
+        l = request.POST['lname']
+        u = request.POST['uname']
+        e = request.POST['email']
+        p = request.POST['pwd']
+        con = request.POST['contact']
+        add = request.POST['address']
+        type = request.POST['type']
+        im = request.FILES['image']
+        dat = datetime.date.today()
+        user = User.objects.create_user(email=e, username=u, password=p, first_name=f,last_name=l)
+        if type=="customer":
+            Customer.objects.create(user=user,contact=con,address=add,image=im)
+        else:
+            stat = Status.objects.get(status='pending')
+            Service_Man.objects.create(doj=dat,image=im,user=user,contact=con,address=add,status=stat)
+        error = "create"
+    d = {'error':error}
+    return render(request, 'signup.html', d)
 
-        user_info=CustomerUser(username=username,pwd=pwd,fname=fname,lname=lname,contact=contact,email=email,address=address,city=city,image=image,usertype=usertype)
-        user_info.save()
-    return render(request,'user_signup.html')
 
 
 def services(request):
     return render(request, 'services.html')
+
+def user_home(request):
+    if not request.user.is_authenticated:
+        return  redirect('user_login')
+    return render(request, 'user_home.html')

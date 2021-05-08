@@ -26,5 +26,5 @@ urlpatterns = [
     path('user_login', user_login, name='user_login'),
     path('contact', contact, name='contact'),
     path('user_signup', user_signup, name='user_signup'),
-    path('services', services, name='services')
+    path('services', services, name='services'),
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
